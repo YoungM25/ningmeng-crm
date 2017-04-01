@@ -153,7 +153,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration><!-- 指定该Main Class为全局的唯一入口 -->
-					<mainClass>com.lingmeng.NingMengAppllication</mainClass>
+					<mainClass>com.ningmeng.NingMengAppllication</mainClass>
 					<layout>ZIP</layout>
 					<fork>true</fork><!-- 如果没有该项配置，肯呢个devtools不会起作用，即应用不会restart -->
 				</configuration>
