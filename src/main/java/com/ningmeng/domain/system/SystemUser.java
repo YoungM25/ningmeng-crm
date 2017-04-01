@@ -1,19 +1,20 @@
 package com.ningmeng.domain.system;
 
-import java.io.Serializable;
 import java.util.Date;
 
-/**
- * 系统用户
- * Created by my on 2017/3/30.
- */
-public class SystemUser implements Serializable{
+public class SystemUser {
     private Long id;
+
     private String username;
+
     private String password;
+
     private String email;
+
     private String mobile;
+
     private Integer status;
+
     private Date createTime;
 
     public Long getId() {
@@ -29,7 +30,7 @@ public class SystemUser implements Serializable{
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username == null ? null : username.trim();
     }
 
     public String getPassword() {
@@ -37,7 +38,7 @@ public class SystemUser implements Serializable{
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = password == null ? null : password.trim();
     }
 
     public String getEmail() {
@@ -45,7 +46,7 @@ public class SystemUser implements Serializable{
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email == null ? null : email.trim();
     }
 
     public String getMobile() {
@@ -53,7 +54,7 @@ public class SystemUser implements Serializable{
     }
 
     public void setMobile(String mobile) {
-        this.mobile = mobile;
+        this.mobile = mobile == null ? null : mobile.trim();
     }
 
     public Integer getStatus() {
@@ -71,6 +72,4 @@ public class SystemUser implements Serializable{
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
-
-
 }
