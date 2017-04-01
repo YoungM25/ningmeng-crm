@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ningmeng.dao.system.SystemUserDao">
+  <resultMap id="SystemUserResult-Map" type="com.ningmeng.domain.system.SystemUser">
+    <result column="id"  property="id" />
+    <result column="loginname"  property="loginname" />
+    <result column="password"  property="password" />
+    <result column="email"  property="email" />
+    <result column="mobile"  property="mobile" />
+    <result column="status"  property="status" />
+    <result column="create_time"  property="createTime" />
+
+  </resultMap>
+  <select id="queryUserById" resultType="com.ningmeng.domain.system.SystemUser" resultMap="SystemUserResult-Map">
+    select * from nm_system_user where id = #{id}
+  </select>
+
+</mapper>
