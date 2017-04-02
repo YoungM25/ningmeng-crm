@@ -1,18 +1,32 @@
 package com.ningmeng.common.config;
 
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
+import com.ningmeng.domain.system.SystemPermission;
+import com.ningmeng.domain.system.SystemRole;
+import com.ningmeng.domain.system.SystemUser;
+import com.ningmeng.service.system.SystemPermissionService;
+import com.ningmeng.service.system.SystemUserService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by yhy on 2017/4/1.
  */
 public class ShiroRealm extends AuthorizingRealm {
 
+    private final static Logger logger = LoggerFactory.getLogger(ShiroRealm.class);
 
+
+    @Autowired
+    private SystemUserService systemUserService;
+    private SystemPermissionService systemPermissionService;
     /**
      * 此方法调用  hasRole,hasPermission的时候才会进行回调.
      *
@@ -29,7 +43,27 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+        logger.info("doGetAuthorizationInfo+"+principalCollection.toString());
+        SystemUser user = systemUserService.selectByUsername((String) principalCollection.getPrimaryPrincipal());
+
+
+        //把principals放session中 key=userId value=principals
+        SecurityUtils.getSubject().getSession().setAttribute(String.valueOf(user.getId()),SecurityUtils.getSubject().getPrincipals());
+
+        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        //赋予角色
+        for(SystemRole userRole : user.getRoles()){
+            info.addRole(userRole.getRoleName());
+        }
+        //赋予权限
+        for(SystemPermission permission:systemPermissionService.getByUserId(user.getId())){
+//            if(StringUtils.isNotBlank(permission.getPermCode()))
+            info.addStringPermission(permission.getName());
+        }
+
+        //设置登录次数、时间
+//        userService.updateUserLogin(user);
+        return info;
     }
 
     /**
@@ -42,8 +76,25 @@ public class ShiroRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        //获取用户输入账号
-        String username  = (String) authenticationToken.getPrincipal();
-        return null;
+
+        logger.info("doGetAuthenticationInfo +"  + authenticationToken.toString());
+
+        UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
+        String userName=token.getUsername();
+        logger.info(userName+token.getPassword());
+
+        SystemUser user = systemUserService.selectByUsername(token.getUsername());
+        if (user != null) {
+//            byte[] salt = Encodes.decodeHex(user.getSalt());
+//            ShiroUser shiroUser=new ShiroUser(user.getId(), user.getLoginName(), user.getName());
+            //设置用户session
+            Session session = SecurityUtils.getSubject().getSession();
+            session.setAttribute("user", user);
+            return new SimpleAuthenticationInfo(userName,user.getPassword(),getName());
+        } else {
+            return null;
+        }
+//        return null;
     }
 }
+

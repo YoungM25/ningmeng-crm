@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.ningmeng.dao.system.SystemUserMapper" >
-  <resultMap id="BaseResultMap" type="andy.model.SystemUser" >
+<mapper namespace="com.ningmeng.dao.system.SystemUserDao" >
+  <resultMap id="BaseResultMap" type="com.ningmeng.domain.system.SystemUser" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
@@ -114,4 +114,11 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from nm_system_user
+    where username = #{username,jdbcType=VARCHAR}
+  </select>
+
 </mapper>

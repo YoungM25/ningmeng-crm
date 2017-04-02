@@ -3,6 +3,9 @@ package com.ningmeng.dao.system;
 
 import com.ningmeng.domain.system.SystemPermission;
 
+import java.util.List;
+import java.util.Map;
+
 public interface SystemPermissionMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -15,4 +18,18 @@ public interface SystemPermissionMapper {
     int updateByPrimaryKeySelective(SystemPermission record);
 
     int updateByPrimaryKey(SystemPermission record);
+
+    List<SystemPermission> getByMap(Map<String, Object> map);
+
+    SystemPermission getById(Integer id);
+
+    Integer create(SystemPermission permission);
+
+    int update(SystemPermission permission);
+
+    int delete(Integer id);
+
+    List<SystemPermission> getList();
+
+    List<SystemPermission> getByUserId(Long userId);
 }

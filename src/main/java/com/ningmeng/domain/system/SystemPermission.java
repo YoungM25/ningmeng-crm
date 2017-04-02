@@ -6,6 +6,7 @@ public class SystemPermission {
     private String url;
 
     private String desc;
+    private String name;
 
     public Long getId() {
         return id;
@@ -29,5 +30,11 @@ public class SystemPermission {
 
     public void setDesc(String desc) {
         this.desc = desc == null ? null : desc.trim();
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
     }
 }

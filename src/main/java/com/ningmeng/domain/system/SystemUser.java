@@ -1,6 +1,7 @@
 package com.ningmeng.domain.system;
 
 import java.util.Date;
+import java.util.List;
 
 public class SystemUser {
     private Long id;
@@ -16,6 +17,8 @@ public class SystemUser {
     private Integer status;
 
     private Date createTime;
+
+    private List<SystemRole> roles;
 
     public Long getId() {
         return id;
@@ -72,4 +75,12 @@ public class SystemUser {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+    public List<SystemRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<SystemRole> roles) {
+        this.roles = roles;
+    }
+
 }

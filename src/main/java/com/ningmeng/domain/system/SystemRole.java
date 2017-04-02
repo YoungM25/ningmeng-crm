@@ -3,7 +3,7 @@ package com.ningmeng.domain.system;
 import java.util.Date;
 
 public class SystemRole {
-    private Long id;
+    private Integer id;
 
     private String roleName;
 
@@ -11,11 +11,11 @@ public class SystemRole {
 
     private Date createTime;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
