@@ -23,7 +23,7 @@
     delete from nm_system_user
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="andy.model.SystemUser" >
+  <insert id="insert" parameterType="com.ningmeng.domain.system.SystemUser" >
     insert into nm_system_user (id, username, password,
       email, mobile, status,
       create_time)
@@ -31,7 +31,7 @@
       #{email,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="andy.model.SystemUser" >
+  <insert id="insertSelective" parameterType="com.ningmeng.domain.system.SystemUser" >
     insert into nm_system_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -80,7 +80,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="andy.model.SystemUser" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningmeng.domain.system.SystemUser" >
     update nm_system_user
     <set >
       <if test="username != null" >
@@ -104,7 +104,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="andy.model.SystemUser" >
+  <update id="updateByPrimaryKey" parameterType="com.ningmeng.domain.system.SystemUser" >
     update nm_system_user
     set username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},

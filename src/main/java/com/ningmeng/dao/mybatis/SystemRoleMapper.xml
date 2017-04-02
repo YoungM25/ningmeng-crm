@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ningmeng.dao.system.SystemRoleMapper" >
-  <resultMap id="BaseResultMap" type="andy.model.SystemRole" >
+  <resultMap id="BaseResultMap" type="com.ningmeng.domain.system.SystemRole" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="role_name" property="roleName" jdbcType="VARCHAR" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
@@ -20,13 +20,13 @@
     delete from nm_system_role
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="andy.model.SystemRole" >
+  <insert id="insert" parameterType="com.ningmeng.domain.system.SystemRole" >
     insert into nm_system_role (id, role_name, remark, 
       create_time)
     values (#{id,jdbcType=BIGINT}, #{roleName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="andy.model.SystemRole" >
+  <insert id="insertSelective" parameterType="com.ningmeng.domain.system.SystemRole" >
     insert into nm_system_role
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -57,7 +57,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="andy.model.SystemRole" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningmeng.domain.system.SystemRole" >
     update nm_system_role
     <set >
       <if test="roleName != null" >
@@ -72,7 +72,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="andy.model.SystemRole" >
+  <update id="updateByPrimaryKey" parameterType="com.ningmeng.domain.system.SystemRole" >
     update nm_system_role
     set role_name = #{roleName,jdbcType=VARCHAR},
       remark = #{remark,jdbcType=VARCHAR},

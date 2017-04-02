@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ningmeng.dao.system.SystemRolePermissionMapper" >
-  <resultMap id="BaseResultMap" type="andy.model.SystemRolePermission" >
+  <resultMap id="BaseResultMap" type="com.ningmeng.domain.system.SystemRolePermission" >
     <result column="rid" property="rid" jdbcType="BIGINT" />
     <result column="pid" property="pid" jdbcType="BIGINT" />
   </resultMap>
-  <insert id="insert" parameterType="andy.model.SystemRolePermission" >
+  <insert id="insert" parameterType="com.ningmeng.domain.system.SystemRolePermission" >
     insert into nm_system_role_permission (rid, pid)
     values (#{rid,jdbcType=BIGINT}, #{pid,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="andy.model.SystemRolePermission" >
+  <insert id="insertSelective" parameterType="com.ningmeng.domain.system.SystemRolePermission" >
     insert into nm_system_role_permission
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="rid != null" >

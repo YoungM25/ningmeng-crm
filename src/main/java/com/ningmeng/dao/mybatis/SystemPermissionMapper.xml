@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ningmeng.dao.system.SystemPermissionMapper" >
-  <resultMap id="BaseResultMap" type="andy.model.SystemPermission" >
+  <resultMap id="BaseResultMap" type="com.ningmeng.domain.system.SystemPermission" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="desc" property="desc" jdbcType="VARCHAR" />
@@ -19,11 +19,11 @@
     delete from nm_system_permission
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="andy.model.SystemPermission" >
+  <insert id="insert" parameterType="com.ningmeng.domain.system.SystemPermission" >
     insert into nm_system_permission (id, url, desc)
     values (#{id,jdbcType=BIGINT}, #{url,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="andy.model.SystemPermission" >
+  <insert id="insertSelective" parameterType="com.ningmeng.domain.system.SystemPermission" >
     insert into nm_system_permission
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -48,7 +48,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="andy.model.SystemPermission" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningmeng.domain.system.SystemPermission" >
     update nm_system_permission
     <set >
       <if test="url != null" >
@@ -60,7 +60,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="andy.model.SystemPermission" >
+  <update id="updateByPrimaryKey" parameterType="com.ningmeng.domain.system.SystemPermission" >
     update nm_system_permission
     set url = #{url,jdbcType=VARCHAR},
       desc = #{desc,jdbcType=VARCHAR}

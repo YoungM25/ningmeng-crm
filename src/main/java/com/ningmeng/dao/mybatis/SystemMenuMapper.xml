@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.ningmeng.dao.system.SystemMenuMapper" >
-  <resultMap id="BaseResultMap" type="andy.model.SystemMenu" >
+  <resultMap id="BaseResultMap" type="com.ningmeng.domain.system.SystemMenu" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="parent_id" property="parentId" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -24,7 +24,7 @@
     delete from nm_system_menu
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="andy.model.SystemMenu" >
+  <insert id="insert" parameterType="com.ningmeng.domain.system.SystemMenu" >
     insert into nm_system_menu (id, parent_id, name, 
       url, perms, type, icon, 
       order_num)
@@ -32,7 +32,7 @@
       #{url,jdbcType=VARCHAR}, #{perms,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, 
       #{orderNum,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="andy.model.SystemMenu" >
+  <insert id="insertSelective" parameterType="com.ningmeng.domain.system.SystemMenu" >
     insert into nm_system_menu
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -87,7 +87,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="andy.model.SystemMenu" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.ningmeng.domain.system.SystemMenu" >
     update nm_system_menu
     <set >
       <if test="parentId != null" >
@@ -114,7 +114,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="andy.model.SystemMenu" >
+  <update id="updateByPrimaryKey" parameterType="com.ningmeng.domain.system.SystemMenu" >
     update nm_system_menu
     set parent_id = #{parentId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
