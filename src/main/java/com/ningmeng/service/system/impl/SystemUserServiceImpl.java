@@ -1,6 +1,6 @@
 package com.ningmeng.service.system.impl;
 
-import com.ningmeng.dao.system.SystemUserDao;
+import com.ningmeng.dao.system.SystemUserMapper;
 import com.ningmeng.domain.system.SystemUser;
 import com.ningmeng.service.system.SystemUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,35 +16,35 @@ import java.util.Map;
 public class SystemUserServiceImpl implements SystemUserService {
 
     @Autowired
-    private SystemUserDao systemUserDao;
+    private SystemUserMapper systemUserMapper;
     @Override
     public SystemUser selectByUsername(String username) {
-        return systemUserDao.selectByUsername(username);
+        return systemUserMapper.selectByUsername(username);
     }
 
     public List<SystemUser> getByMap(Map<String,Object> map) {
-        return systemUserDao.getByMap(map);
+        return systemUserMapper.getByMap(map);
     }
 
     public SystemUser getById(Integer id) {
-        return systemUserDao.getById(id);
+        return systemUserMapper.getById(id);
     }
 
     public SystemUser create(SystemUser user) {
-        systemUserDao.create(user);
+        systemUserMapper.create(user);
         return user;
     }
 
     public SystemUser update(SystemUser user) {
-        systemUserDao.update(user);
+        systemUserMapper.update(user);
         return user;
     }
 
     public int delete(Integer id) {
-        return systemUserDao.delete(id);
+        return systemUserMapper.delete(id);
     }
 
     public SystemUser getByUserName(String userName) {
-        return systemUserDao.getByUserName(userName);
+        return systemUserMapper.getByUserName(userName);
     }
 }

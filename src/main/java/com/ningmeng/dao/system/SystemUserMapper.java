@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public interface SystemUserDao {
+public interface SystemUserMapper {
     int deleteByPrimaryKey(Long id);
 
     int insert(SystemUser record);

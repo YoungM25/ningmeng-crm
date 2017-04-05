@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class NingmengCrmApplication {
+public class NingmengApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(NingmengCrmApplication.class, args);
+		SpringApplication.run(NingmengApplication.class, args);
 	}
 }
