@@ -26,6 +26,7 @@ public class ShiroRealm extends AuthorizingRealm {
 
     @Autowired
     private SystemUserService systemUserService;
+    @Autowired
     private SystemPermissionService systemPermissionService;
     /**
      * 此方法调用  hasRole,hasPermission的时候才会进行回调.

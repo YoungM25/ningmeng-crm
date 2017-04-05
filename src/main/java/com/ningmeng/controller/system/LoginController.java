@@ -29,6 +29,7 @@ public class LoginController {
         try {
             subject.login(token);
         } catch (AuthenticationException e) {
+            //model.addAttribute("msg","您的账号或密码输入错误");
             e.printStackTrace();
 //            rediect.addFlashAttribute("errorText", "您的账号或密码输入错误!");
             return "{\"Msg\":\"您的账号或密码输入错误\",\"state\":\"failed\"}";
