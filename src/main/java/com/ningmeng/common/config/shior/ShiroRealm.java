@@ -1,4 +1,4 @@
-package com.ningmeng.common.config;
+package com.ningmeng.common.config.shior;
 
 import com.ningmeng.domain.system.SystemPermission;
 import com.ningmeng.domain.system.SystemRole;
@@ -39,17 +39,18 @@ public class ShiroRealm extends AuthorizingRealm {
      * 在权限修改后调用realm中的方法，realm已经由spring管理，所以从spring中获取realm实例，
      * 调用clearCached方法；
      * :Authorization 是授权访问控制，用于对用户进行的操作授权，证明该用户是否允许进行当前操作，如访问某个链接，某个资源文件等。
-     * @param principalCollection
+     * @param principals
      * @return
      */
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        logger.info("doGetAuthorizationInfo+"+principalCollection.toString());
-        SystemUser user = systemUserService.selectByUsername((String) principalCollection.getPrimaryPrincipal());
-
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        logger.info("doGetAuthorizationInfo+"+principals.toString());
+        SystemUser user = (SystemUser)principals.getPrimaryPrincipal();
+//        SystemUser user = systemUserService.selectByUsername((String) principalCollection.getPrimaryPrincipal());
+        Long id = user.getId();
 
         //把principals放session中 key=userId value=principals
-        SecurityUtils.getSubject().getSession().setAttribute(String.valueOf(user.getId()),SecurityUtils.getSubject().getPrincipals());
+        SecurityUtils.getSubject().getSession().setAttribute(String.valueOf(id),SecurityUtils.getSubject().getPrincipals());
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //赋予角色
@@ -57,7 +58,7 @@ public class ShiroRealm extends AuthorizingRealm {
             info.addRole(userRole.getRoleName());
         }
         //赋予权限
-        for(SystemPermission permission:systemPermissionService.getByUserId(user.getId())){
+        for(SystemPermission permission:systemPermissionService.getByUserId(id)){
 //            if(StringUtils.isNotBlank(permission.getPermCode()))
             info.addStringPermission(permission.getName());
         }
@@ -71,31 +72,47 @@ public class ShiroRealm extends AuthorizingRealm {
      * 认证信息.(身份验证)
      * :
      * Authentication 是用来验证用户身份
-     * @param authenticationToken
+     * @param token
      * @return
      * @throws AuthenticationException
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 
-        logger.info("doGetAuthenticationInfo +"  + authenticationToken.toString());
+        logger.info("doGetAuthenticationInfo +"  + token.toString());
 
-        UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
-        String userName=token.getUsername();
-        logger.info(userName+token.getPassword());
+//        UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
+//        String userName=token.getUsername();
 
-        SystemUser user = systemUserService.selectByUsername(token.getUsername());
-        if (user != null) {
+        String username = (String) token.getPrincipal();
+        String password = new String((char[]) token.getCredentials());
+        logger.info(username+password);
+
+        //查询用户信息
+        SystemUser user = systemUserService.selectByUsername(username);
+
+        //账号不存在
+        if(user == null) {
+            throw new UnknownAccountException("账号或密码不正确");
+        }
+
+        //密码错误
+        if(!password.equals(user.getPassword())) {
+            throw new IncorrectCredentialsException("账号或密码不正确");
+        }
+
+        //账号锁定
+        if(user.getStatus() == 0){
+            throw new LockedAccountException("账号已被锁定,请联系管理员");
+        }
+
 //            byte[] salt = Encodes.decodeHex(user.getSalt());
 //            ShiroUser shiroUser=new ShiroUser(user.getId(), user.getLoginName(), user.getName());
-            //设置用户session
-            Session session = SecurityUtils.getSubject().getSession();
-            session.setAttribute("user", user);
-            return new SimpleAuthenticationInfo(userName,user.getPassword(),getName());
-        } else {
-            return null;
-        }
-//        return null;
+        //设置用户session
+        Session session = SecurityUtils.getSubject().getSession();
+        session.setAttribute("user", user);
+        return new SimpleAuthenticationInfo(username,user.getPassword(),getName());
+
     }
 }
 

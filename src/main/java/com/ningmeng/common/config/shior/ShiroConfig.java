@@ -1,4 +1,4 @@
-package com.ningmeng.common.config;
+package com.ningmeng.common.config.shior;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;

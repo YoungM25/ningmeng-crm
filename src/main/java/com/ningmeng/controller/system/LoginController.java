@@ -1,22 +1,30 @@
 package com.ningmeng.controller.system;
 
+import com.ningmeng.common.utils.ShiroUtils;
+import com.ningmeng.controller.AbstractController;
+import com.ningmeng.domain.mvc.Result;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.subject.Subject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by yhy on 2017/4/2.
  */
 @RestController
-public class LoginController {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
+public class LoginController extends AbstractController{
+    /**
+     *  登录
+     * @param userName
+     * @param password
+     * @param rememberMe
+     * @return
+     */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(
+    public Result login(
             @RequestParam(value = "username", required = true) String userName,
             @RequestParam(value = "password", required = true) String password,
             @RequestParam(value = "rememberMe", required = true, defaultValue = "false") boolean rememberMe
@@ -25,21 +33,26 @@ public class LoginController {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
         token.setRememberMe(rememberMe);
-
         try {
             subject.login(token);
-        } catch (AuthenticationException e) {
-            //model.addAttribute("msg","您的账号或密码输入错误");
-            e.printStackTrace();
-//            rediect.addFlashAttribute("errorText", "您的账号或密码输入错误!");
-            return "{\"Msg\":\"您的账号或密码输入错误\",\"state\":\"failed\"}";
+        }catch (UnknownAccountException e) {
+            return error(e.getMessage());
+        }catch (IncorrectCredentialsException e) {
+            return error(e.getMessage());
+        }catch (LockedAccountException e) {
+            return error(e.getMessage());
+        }catch (AuthenticationException e) {
+            return error("账户验证失败");
         }
-        return "{\"Msg\":\"登陆成功\",\"state\":\"success\"}";
+        return success("登陆成功！");
     }
 
-    @RequestMapping("/")
-    @ResponseBody
-    public String index() {
-        return "no permission";
+    /**
+     * 退出
+     */
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
+    public String logout() {
+        ShiroUtils.logout();
+        return "redirect:/signin";
     }
 }

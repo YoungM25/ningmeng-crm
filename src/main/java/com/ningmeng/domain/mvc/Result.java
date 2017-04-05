@@ -1,9 +1,13 @@
 package com.ningmeng.domain.mvc;
 
+
+
 /**
  * Created by yhy on 2017/4/1.
  */
-public class Result<T> {
+public class Result {
+    /** 状态*/
+    private Boolean status;
 
     /** 错误码. */
     private String code;
@@ -12,7 +16,7 @@ public class Result<T> {
     private String msg;
 
     /** 具体的内容. */
-    private T data;
+    private Object data;
 
     public String getCode() {
         return code;
@@ -30,11 +34,19 @@ public class Result<T> {
         this.msg = msg;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 }
