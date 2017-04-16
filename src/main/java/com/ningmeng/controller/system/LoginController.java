@@ -42,6 +42,7 @@ public class LoginController extends AbstractController{
         }catch (LockedAccountException e) {
             return error(e.getMessage());
         }catch (AuthenticationException e) {
+            e.printStackTrace();
             return error("账户验证失败");
         }
         return success("登陆成功！");
@@ -50,7 +51,7 @@ public class LoginController extends AbstractController{
     /**
      * 退出
      */
-    @RequestMapping(value = "logout", method = RequestMethod.GET)
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout() {
         ShiroUtils.logout();
         return "redirect:/signin";

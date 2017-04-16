@@ -97,13 +97,15 @@ public class ShiroConfig {
 
         Map<String, String> filterChainDefinitionManager = new LinkedHashMap<String, String>();
         filterChainDefinitionManager.put("/logout", "logout");
-        filterChainDefinitionManager.put("/user/**", "authc,roles[ROLE_USER]");
-        filterChainDefinitionManager.put("/events/**", "authc,roles[ROLE_ADMIN]");
+
+        //filterChainDefinitionManager.put("/events/**", "authc,roles[ROLE_ADMIN]");
 //        filterChainDefinitionManager.put("/user/edit/**", "authc,perms[user:edit]");// 这里为了测试，固定写死的值，也可以从数据库或其他配置中读取
-        filterChainDefinitionManager.put("/**", "anon");
+        filterChainDefinitionManager.put("/static/**", "anon");
+        filterChainDefinitionManager.put("/login", "anon");
+        filterChainDefinitionManager.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionManager);
 
-
+        shiroFilterFactoryBean.setLoginUrl("/signin");
         shiroFilterFactoryBean.setSuccessUrl("/index");
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
         return shiroFilterFactoryBean;

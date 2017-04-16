@@ -1,8 +1,11 @@
 package com.ningmeng.common.config.shior;
 
+import com.ningmeng.domain.system.SysPermission;
+import com.ningmeng.domain.system.SysRole;
+import com.ningmeng.domain.system.SysUser;
 import com.ningmeng.domain.system.SystemPermission;
-import com.ningmeng.domain.system.SystemRole;
-import com.ningmeng.domain.system.SystemUser;
+import com.ningmeng.service.system.SysPermissionService;
+import com.ningmeng.service.system.SysUserService;
 import com.ningmeng.service.system.SystemPermissionService;
 import com.ningmeng.service.system.SystemUserService;
 import org.apache.shiro.SecurityUtils;
@@ -16,6 +19,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
  * Created by yhy on 2017/4/1.
  */
@@ -27,7 +32,11 @@ public class ShiroRealm extends AuthorizingRealm {
     @Autowired
     private SystemUserService systemUserService;
     @Autowired
+    private SysUserService sysUserService;
+    @Autowired
     private SystemPermissionService systemPermissionService;
+    @Autowired
+    private SysPermissionService sysPermissionService;
     /**
      * 此方法调用  hasRole,hasPermission的时候才会进行回调.
      *
@@ -45,20 +54,20 @@ public class ShiroRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         logger.info("doGetAuthorizationInfo+"+principals.toString());
-        SystemUser user = (SystemUser)principals.getPrimaryPrincipal();
+        SysUser user = (SysUser)principals.getPrimaryPrincipal();
 //        SystemUser user = systemUserService.selectByUsername((String) principalCollection.getPrimaryPrincipal());
-        Long id = user.getId();
+        String id = user.getId();
 
         //把principals放session中 key=userId value=principals
         SecurityUtils.getSubject().getSession().setAttribute(String.valueOf(id),SecurityUtils.getSubject().getPrincipals());
 
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //赋予角色
-        for(SystemRole userRole : user.getRoles()){
-            info.addRole(userRole.getRoleName());
+        for(SysRole userRole : user.getSysRole()){
+            info.addRole(userRole.getName());
         }
         //赋予权限
-        for(SystemPermission permission:systemPermissionService.getByUserId(id)){
+        for(SystemPermission permission:sysPermissionService.getByUserId(id)){
 //            if(StringUtils.isNotBlank(permission.getPermCode()))
             info.addStringPermission(permission.getName());
         }
@@ -89,7 +98,7 @@ public class ShiroRealm extends AuthorizingRealm {
         logger.info(username+password);
 
         //查询用户信息
-        SystemUser user = systemUserService.selectByUsername(username);
+        SysUser user = sysUserService.selectByUsername(username);
 
         //账号不存在
         if(user == null) {
@@ -100,18 +109,25 @@ public class ShiroRealm extends AuthorizingRealm {
         if(!password.equals(user.getPassword())) {
             throw new IncorrectCredentialsException("账号或密码不正确");
         }
+        List<SysPermission> menus=null;
+        try {
+            menus=sysPermissionService.findMenuListByUserId(user.getId());
+            user.setMenus(menus);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         //账号锁定
-        if(user.getStatus() == 0){
-            throw new LockedAccountException("账号已被锁定,请联系管理员");
-        }
+//        if(user.getStatus() == 0){
+//            throw new LockedAccountException("账号已被锁定,请联系管理员");
+//        }
 
 //            byte[] salt = Encodes.decodeHex(user.getSalt());
 //            ShiroUser shiroUser=new ShiroUser(user.getId(), user.getLoginName(), user.getName());
         //设置用户session
         Session session = SecurityUtils.getSubject().getSession();
         session.setAttribute("user", user);
-        return new SimpleAuthenticationInfo(username,user.getPassword(),getName());
+        return new SimpleAuthenticationInfo(user,user.getPassword(),getName());
 
     }
 }
