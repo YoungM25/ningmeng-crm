@@ -9,4 +9,6 @@ public class NingmengApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NingmengApplication.class, args);
 	}
+	
+	
 }
