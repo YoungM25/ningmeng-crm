@@ -13,4 +13,8 @@ public interface SysPermissionService {
     List<SystemPermission> getByUserId(String id);
 
     List<SysPermission> findMenuListByUserId(String id);
+
+	List<SysPermission> getRootMenuByUser(String id);
+
+	List<SysPermission> getChildMenuByUser(String id);
 }

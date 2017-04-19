@@ -176,4 +176,42 @@
     sys_user_role
     WHERE sys_user_id = #{userid}))
   </select>
+  <select id="getRootMenuByUser" resultMap="BaseResultMap"  parameterType="string">
+  SELECT
+    *
+    FROM
+    sys_permission
+    WHERE TYPE = 'menu' and parentid='1'
+    AND id IN
+    (SELECT
+    sys_permission_id
+    FROM
+    sys_role_permission
+    WHERE sys_role_id IN
+    (SELECT
+    sys_role_id
+    FROM
+    sys_user_role
+    WHERE sys_user_id = #{userid}))
+  </select>
+  <select id="getChildMenuByUser" resultMap="BaseResultMap"  parameterType="string">
+  SELECT
+    *
+    FROM
+    sys_permission
+    WHERE TYPE = 'menu' and parentid !='1'
+    AND id IN
+    (SELECT
+    sys_permission_id
+    FROM
+    sys_role_permission
+    WHERE sys_role_id IN
+    (SELECT
+    sys_role_id
+    FROM
+    sys_user_role
+    WHERE sys_user_id = #{userid}))
+  </select>
+  
+  
 </mapper>

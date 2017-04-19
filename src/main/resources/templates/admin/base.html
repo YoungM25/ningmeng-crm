@@ -276,7 +276,7 @@
 					<div class="user-block hidden-xs">
 						<a href="#" id="userToggle" data-toggle="dropdown">
 							<img src="images/profile/profile1.jpg" alt="" class="img-circle inline-block user-profile-pic">
-							<div class="user-detail inline-block" >
+							<div class="user-detail inline-block">
 								sss
 								<i class="fa fa-angle-down"></i>
 							</div>
@@ -434,30 +434,31 @@
 				<li class="menu-header">
 					Main Menu
 				</li>
-
-				<li class="openable bg-palette3">
-					<a href="#">
+				<li class="bg-palette1">
+					<a href="index.html">
+						<span class="menu-content block">
+							<span class="menu-icon"><i class="block fa fa-home fa-lg"></i></span>
+							<span class="text m-left-sm">工作台</span>
+						</span>
+						<span class="menu-content-hover block">
+							Home
+						</span>
+					</a>
+				</li>
+				<li class="openable bg-palette3" th:each="menu : ${menuList}">
+					<a href="#" >
 						<span class="menu-content block">
 							<span class="menu-icon"><i class="block fa fa-gift fa-lg"></i></span>
-							<span class="text m-left-sm">Extra Pages</span>
+							<span class="text m-left-sm" th:text="${menu.text}">Extra Pages</span>
 							<span class="submenu-icon"></span>
 						</span>
 						<span class="menu-content-hover block">
 							Pages
 						</span>
 					</a>
-					<ul class="submenu">
-						<li><a href="signin.html"><span class="submenu-label">Sign in</span></a></li>
-						<li><a href="signup.html"><span class="submenu-label">Sign Up</span></a></li>
-						<li><a href="lockscreen.html"><span class="submenu-label">Lock Screen</span></a></li>
-						<li><a href="profile.html"><span class="submenu-label">Profile</span></a></li>
-						<li><a href="gallery.html"><span class="submenu-label">Gallery</span></a></li>
-						<li><a href="blog.html"><span class="submenu-label">Blog</span></a></li>
-						<li><a href="single_post.html"><span class="submenu-label">Single Post</span></a></li>
-						<li><a href="pricing.html"><span class="submenu-label">Pricing</span></a></li>
-						<li><a href="invoice.html"><span class="submenu-label">Invoice</span></a></li>
-						<li><a href="error404.html"><span class="submenu-label">Error404</span></a></li>
-						<li><a href="blank.html"><span class="submenu-label">Blank</span></a></li>
+					<ul class="submenu" th:each="submenu : ${menu.children}">
+						<li><a href="" th:href="${submenu.url}"><span class="submenu-label" th:text="${submenu.text}">Sign in</span></a></li>
+						
 					</ul>
 				</li>
 

@@ -21,5 +21,9 @@ public interface SysPermissionMapper {
 
     List<SystemPermission> getByUserId(@Param("userid") String id);
 
-    List<SysPermission> findMenuListByUserId(@Param("userid")String id);
+    List<SysPermission> findMenuListByUserId(@Param("userid") String id);
+
+	List<SysPermission> getRootMenuByUser(@Param("userid") String id);
+
+	List<SysPermission> getChildMenuByUser(@Param("userid") String id);
 }

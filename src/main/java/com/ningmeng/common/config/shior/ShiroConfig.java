@@ -11,7 +11,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
-
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -100,7 +99,11 @@ public class ShiroConfig {
 
         //filterChainDefinitionManager.put("/events/**", "authc,roles[ROLE_ADMIN]");
 //        filterChainDefinitionManager.put("/user/edit/**", "authc,perms[user:edit]");// 这里为了测试，固定写死的值，也可以从数据库或其他配置中读取
-        filterChainDefinitionManager.put("/static/**", "anon");
+        filterChainDefinitionManager.put("/js/**", "anon");
+        filterChainDefinitionManager.put("/bootstrap/**", "anon");
+        filterChainDefinitionManager.put("/css/**", "anon");
+        filterChainDefinitionManager.put("/fonts/**", "anon");
+        filterChainDefinitionManager.put("/images", "anon");
         filterChainDefinitionManager.put("/login", "anon");
         filterChainDefinitionManager.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionManager);

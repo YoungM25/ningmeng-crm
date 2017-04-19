@@ -32,4 +32,16 @@ public class SysPermissionServiceImpl implements SysPermissionService {
     public List<SysPermission> findMenuListByUserId(String id) {
         return sysPermissionMapper.findMenuListByUserId(id);
     }
+
+	@Override
+	public List<SysPermission> getRootMenuByUser(String id) {
+		// TODO Auto-generated method stub
+		return sysPermissionMapper.getRootMenuByUser(id);
+	}
+
+	@Override
+	public List<SysPermission> getChildMenuByUser(String id) {
+		// TODO Auto-generated method stub
+		return sysPermissionMapper.getChildMenuByUser(id);
+	}
 }
